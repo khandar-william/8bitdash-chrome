@@ -66,6 +66,22 @@ var sleepWell = {
 }
 var imageExtensions = ["gif", "png", "jpg", "jpeg", "webp"]
 
+function stepCatalog(modeIndex, imageIndex, imageCount, modeCount, dir) {
+  if (dir > 0) {
+    if (imageIndex + 1 < imageCount) {
+      return { modeIndex: modeIndex, imageIndex: imageIndex + 1 }
+    }
+    return { modeIndex: (modeIndex + 1) % modeCount, imageIndex: 0 }
+  }
+  if (imageIndex > 0) {
+    return { modeIndex: modeIndex, imageIndex: imageIndex - 1 }
+  }
+  return {
+    modeIndex: (modeIndex - 1 + modeCount) % modeCount,
+    imageIndex: "last"
+  }
+}
+
 function listImages(folder, done) {
   chrome.runtime.getPackageDirectoryEntry(function(root) {
     root.getDirectory("images/" + folder, {}, function(dir) {
@@ -237,9 +253,7 @@ var Dash = function() {
     "more"
   ]
 
-  var x = Math.random() * modes.length;
-
-  this.curMode = modes[Math.floor(x)];
+  this.curMode = modes[Math.floor(Math.random() * modes.length)];
   this.curIndex = 0;
   this.files = [];
   this.loadToken = 0;
@@ -248,7 +262,7 @@ var Dash = function() {
   // controllable via Dat.GUI
   this.showClock = true;
   this.showGreeter = true;
-  this.theme = "landscapes"
+  this.theme = this.curMode
   this.language = "english"
 
   this.changeLanguage = function(language) {
@@ -279,17 +293,35 @@ var Dash = function() {
     var dash = this
     var token = ++this.loadToken
     var mode = this.curMode
+    this.loading = true
     listImages(mode, function(images) {
-      if (token !== dash.loadToken || mode !== dash.curMode) return
+      if (token !== dash.loadToken) return
+      dash.loading = false
+      if (mode !== dash.curMode) return
       dash.files = images
       if (!images.length) return
-      if (index === undefined || index < 0 || index >= images.length) {
+      if (index === "last") {
+        dash.curIndex = images.length - 1
+      } else if (index === undefined || index < 0 || index >= images.length) {
         dash.curIndex = Math.floor(Math.random() * images.length)
       } else {
         dash.curIndex = index
       }
       dash.updateBackground()
     })
+  }
+
+  this.applyStep = function(pos) {
+    var mode = this.modes[pos.modeIndex]
+    if (mode === this.curMode) {
+      this.curIndex = pos.imageIndex === "last" ? this.files.length - 1 : pos.imageIndex
+      this.updateBackground()
+      return
+    }
+    this.curMode = mode
+    this.theme = mode
+    if (this.themeController) this.themeController.updateDisplay()
+    this.openMode(pos.imageIndex)
   }
 
   this.updateBackground = function() {
@@ -304,21 +336,17 @@ var Dash = function() {
   } 
 
   this.nextBackground = function() {
-    if (!this.files.length) return
-    this.curIndex += 1;
-    if(this.curIndex >= this.files.length) {
-      this.curIndex = 0;
-    }
-    this.updateBackground();
+    if (this.loading || !this.files.length) return
+    var i = this.modes.indexOf(this.curMode)
+    if (i < 0) i = 0
+    this.applyStep(stepCatalog(i, this.curIndex, this.files.length, this.modes.length, 1))
   }
 
   this.previousBackground = function() {
-    if (!this.files.length) return
-    this.curIndex -= 1; 
-    if(this.curIndex < 0) {
-      this.curIndex = this.files.length - 1;
-    }
-    this.updateBackground();
+    if (this.loading || !this.files.length) return
+    var i = this.modes.indexOf(this.curMode)
+    if (i < 0) i = 0
+    this.applyStep(stepCatalog(i, this.curIndex, this.files.length, this.modes.length, -1))
   }
 
   this.initialize = function(basil) {
@@ -326,11 +354,6 @@ var Dash = function() {
     this.basil = basil;
     
     var keys = basil.keys()
-    if(keys.indexOf("mode2") != -1) {
-      this.curMode = basil.get("mode2");
-      console.log("loaded mode from saved settings")
-    }
-
     if(keys.indexOf("language") != -1) {
       this.changeLanguage(basil.get("language"));
     }
@@ -341,7 +364,6 @@ var Dash = function() {
     this.curMode = mode
     this.openMode(0);
 
-    this.basil.set("mode2", mode);
     this.basil.set("done-tutorial", true);
   }
 }
@@ -383,7 +405,7 @@ var updateClock = function() {
     document.getElementById("greeting").firstChild.nodeValue = greeting 
   }
 
-window.onload = function() {
+if (typeof window !== "undefined") window.onload = function() {
 
   var dash = new Dash()
   var basil = new window.Basil(); 
@@ -397,6 +419,7 @@ window.onload = function() {
   "mandarin", "japanese", "arabic", "hindi", "korean", "italian"];
   var languages = defa.add(dash, "language", languages);
   var themes = defa.add(dash, "theme", dash.modes);
+  dash.themeController = themes
   defa.open();
 
   languages.onChange(function(value) {
@@ -428,4 +451,8 @@ window.onload = function() {
       dash.previousBackground();
     }
   });
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { stepCatalog: stepCatalog }
 }
