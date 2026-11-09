@@ -112,6 +112,18 @@ function listImages(folder, done) {
   })
 }
 
+function listAllImages(modes, done) {
+  var byMode = {}
+  var pending = modes.length
+  modes.forEach(function(mode) {
+    listImages(mode, function(images) {
+      byMode[mode] = images
+      pending--
+      if (pending === 0) done(byMode)
+    })
+  })
+}
+
 var Dash = function() {
 
   var cr_kk = "<a target=\"_blank\" href=\"http://kirokaze.deviantart.com/\">Kirokaze</a>"
@@ -253,7 +265,7 @@ var Dash = function() {
     "more"
   ]
 
-  this.curMode = modes[Math.floor(Math.random() * modes.length)];
+  this.curMode = "";
   this.curIndex = 0;
   this.files = [];
   this.loadToken = 0;
@@ -303,10 +315,35 @@ var Dash = function() {
       if (index === "last") {
         dash.curIndex = images.length - 1
       } else if (index === undefined || index < 0 || index >= images.length) {
-        dash.curIndex = Math.floor(Math.random() * images.length)
+        dash.curIndex = 0
       } else {
         dash.curIndex = index
       }
+      dash.updateBackground()
+    })
+  }
+
+  this.openRandom = function() {
+    var dash = this
+    var token = ++this.loadToken
+    this.loading = true
+    listAllImages(this.modes, function(byMode) {
+      if (token !== dash.loadToken) return
+      dash.loading = false
+      var all = []
+      for (var m = 0; m < dash.modes.length; m++) {
+        var mode = dash.modes[m]
+        for (var i = 0; i < byMode[mode].length; i++) {
+          all.push({ mode: mode, file: byMode[mode][i] })
+        }
+      }
+      if (!all.length) return
+      var pick = all[Math.floor(Math.random() * all.length)]
+      dash.curMode = pick.mode
+      dash.theme = pick.mode
+      if (dash.themeController) dash.themeController.updateDisplay()
+      dash.files = byMode[pick.mode]
+      dash.curIndex = dash.files.indexOf(pick.file)
       dash.updateBackground()
     })
   }
@@ -357,7 +394,7 @@ var Dash = function() {
     if(keys.indexOf("language") != -1) {
       this.changeLanguage(basil.get("language"));
     }
-    this.openMode();
+    this.openRandom();
   }
 
   this.changeMode = function(mode) {

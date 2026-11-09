@@ -38,7 +38,7 @@ It prints `ok` when stepping wraps correctly in both directions across art packs
 
 - **Manifest V3, and a folder Chrome can load.** Two library files whose names started with `_` were renamed. Chrome rejects an unpacked extension that contains those names.
 - **The new tab stays on this machine.** Scripts, images, fonts, and connections are limited to files in the extension. There is no analytics call.
-- **The start page is only the dashboard.** It still shows the clock, a greeting in the saved language, the artist credit, and a pixel-art background. Left and right step through the pictures in every art pack, wrapping from the last picture of one pack into the next. **H** opens settings for language and art pack. The language is remembered. The art pack is picked at random on each new tab, and choosing one in settings starts at its first picture. The bookmark map and the single-key shortcuts to other sites are gone.
+- **The start page is only the dashboard.** It still shows the clock, a greeting in the saved language, the artist credit, and a pixel-art background. Left and right step through the pictures in every art pack, wrapping from the last picture of one pack into the next. **H** opens settings for language and art pack. The language is remembered. Each new tab shows a picture picked at random from all the art packs together. Choosing a pack in settings starts at its first picture. The bookmark map and the single-key shortcuts to other sites are gone.
 
 ## Credits
 
