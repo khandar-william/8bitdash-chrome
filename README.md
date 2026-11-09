@@ -22,7 +22,15 @@ Before loading, you can check that Chrome will accept the folder:
 python3 scripts/check_mv3.py
 ```
 
-It prints `ok` when the manifest is Manifest V3, the new-tab page only loads local files, and no packaged name starts with `_`. Chrome refuses all three of those.
+It prints `ok` when the manifest is Manifest V3, the new-tab page loads only local scripts and stylesheets with no inline scripts or event handlers, no packaged name starts with `_`, and every image folder is listed as an art pack. Chrome refuses the names and remote loads it checks for.
+
+To test the picture-stepping logic:
+
+```bash
+node scripts/check_step.js
+```
+
+It prints `ok` when stepping wraps correctly in both directions across art packs.
 
 ## Compared with upstream
 
@@ -30,7 +38,7 @@ It prints `ok` when the manifest is Manifest V3, the new-tab page only loads loc
 
 - **Manifest V3, and a folder Chrome can load.** Two library files whose names started with `_` were renamed. Chrome rejects an unpacked extension that contains those names.
 - **The new tab stays on this machine.** Scripts, images, fonts, and connections are limited to files in the extension. There is no analytics call.
-- **The start page is only the dashboard.** It still shows the clock, a greeting in the saved language, the artist credit, and a pixel-art background. Left and right change the picture. **H** opens settings for language and art pack, and those choices are remembered. The bookmark map and the single-key shortcuts to other sites are gone.
+- **The start page is only the dashboard.** It still shows the clock, a greeting in the saved language, the artist credit, and a pixel-art background. Left and right step through the pictures in every art pack, wrapping from the last picture of one pack into the next. **H** opens settings for language and art pack. The language is remembered. The art pack is picked at random on each new tab, and choosing one in settings starts at its first picture. The bookmark map and the single-key shortcuts to other sites are gone.
 
 ## Credits
 
