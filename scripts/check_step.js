@@ -4,6 +4,13 @@ var path = require("path")
 var stepCatalog = require("../js/8bitdash.js").stepCatalog
 
 var src = fs.readFileSync(path.join(__dirname, "../js/8bitdash.js"), "utf8")
+var page = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8")
+assert.ok(page.includes('name="color-scheme" content="dark"'))
+assert.ok(page.includes("color-scheme: dark"))
+assert.ok(page.includes(".dg select"))
+assert.ok(page.includes("color-scheme: light"))
+assert.ok(page.includes("background: #000 no-repeat center center fixed"))
+assert.ok(src.includes('#000 url(" + imageURL + ")'))
 assert.equal(src.indexOf('basil.get("mode2")'), -1)
 assert.equal(src.indexOf('basil.set("mode2"'), -1)
 

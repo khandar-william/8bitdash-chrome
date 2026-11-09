@@ -273,7 +273,7 @@ var Dash = function() {
   this.changeCSS = function(imageURL) {
     var rule = document.styleSheets[0].cssRules[0];
     var postfix = "no-repeat center center fixed";
-    var s = "url(" + imageURL + ") " + postfix;
+    var s = "#000 url(" + imageURL + ") " + postfix;
     rule.style.background = s 
     rule.style.backgroundSize = "cover"
   }

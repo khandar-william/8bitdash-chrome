@@ -27,16 +27,31 @@ EXPECTED_SCRIPTS = [
     "js/8bitdash.js",
 ]
 
+EXPECTED_STYLES = [
+    "bower_components/skeleton/skeleton.css",
+    "bower_components/fullpage.js/jquery.fullPage.css",
+    "css/examples.css",
+    "css/font.css",
+    "bower_components/alertifyjs/dist/css/alertify.css",
+    "css/pixelpatch.css",
+]
+
 
 class PageScripts(HTMLParser):
     def __init__(self):
         super().__init__()
         self.scripts = []
+        self.styles = []
         self.inline = []
         self._capture = False
         self._buf = []
 
     def handle_starttag(self, tag, attrs):
+        if tag == "link" and dict(attrs).get("rel") == "stylesheet":
+            href = dict(attrs).get("href")
+            if href:
+                self.styles.append(href)
+            return
         if tag != "script":
             return
         kind = dict(attrs).get("type", "")
@@ -100,6 +115,13 @@ def main():
             fail("remote script is not allowed: " + src)
         if not os.path.isfile(os.path.join(ROOT, src)):
             fail("missing script: " + src)
+    if parser.styles != EXPECTED_STYLES:
+        fail("index.html styles are not the local page styles")
+    for href in parser.styles:
+        if href.startswith(("http://", "https://", "//")):
+            fail("remote style is not allowed: " + href)
+        if not os.path.isfile(os.path.join(ROOT, href)):
+            fail("missing style: " + href)
 
     dash_path = os.path.join(ROOT, "js", "8bitdash.js")
     with open(dash_path, encoding="utf-8") as handle:
