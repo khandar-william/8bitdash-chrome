@@ -1,9 +1,12 @@
 {
   "name": "8bitdash",
-  "description": "Override the new tab page with 8bitdash.com",
+  "description": "Local pixel-art new tab page",
   "version": "0.1",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "manifest_version": 2
+  "manifest_version": 3,
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'"
+  }
 }
