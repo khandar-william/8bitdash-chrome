@@ -66,6 +66,13 @@ var sleepWell = {
 }
 var imageExtensions = ["gif", "png", "jpg", "jpeg", "webp"]
 
+function creditHtml(credits, mode, file) {
+  var specific = mode + "/" + file
+  if (specific in credits) return credits[specific]
+  var folder = mode + "/"
+  if (folder in credits) return credits[folder]
+}
+
 function stepCatalog(modeIndex, imageIndex, imageCount, modeCount, dir) {
   if (dir > 0) {
     if (imageIndex + 1 < imageCount) {
@@ -126,120 +133,58 @@ function listAllImages(modes, done) {
 
 var Dash = function() {
 
-  var cr_kk = "<a target=\"_blank\" href=\"http://kirokaze.deviantart.com/\">Kirokaze</a>"
-  var cr_nec = "<a target=\"_blank\" href=\"http://supernaught.itch.io/necromorph\">Necromorph</a> by Alphonsus (<a target=\"_blank\" href=\"https://twitter.com/alphnsus\">@alphnsus</a>) and Dave (<a target=\"_blank\" href=\"https://www.twitter.com/momorgoth\">@momorgoth</a>)"
-  var cr_hld = "<a target=\"_blank\" href=\"http://www.heart-machine.com/\">heart-machine.com</a>"+ 
-    "+ <a target=\"_blank\" href=\"http://www.twitter.com/heartmachinez\">@HeartMachineZ</a>"
-  var cr_ms = "<a target=\"_blank\" href=\"http://www.antonkudin.me/megasphere/\">Megasphere</a>"+
-    " by Anton Kudin (<a href=\"http://www.twitter.com/antonkudin\">@antonkudin</a>)"
-  var cr_bs = "<a target=\"_blank\" href=\"http://bitslap.se/\">bitslap.se</a>"
-  var cr_sg = "Sandy Gorden (<a target=\"_blank\" href=\"http://www.twitter.com/bandygrass\">@Bandygrass</a>)"
-  var cr_ls = "<a target=\"_blank\" href=\"http://lennsan.tumblr.com/\">http://lennsan.tumblr.com</a>"
+  var cr_kk = "<a target=\"_blank\" href=\"https://www.deviantart.com/kirokaze\">Kirokaze</a>"
+  var cr_nec = "<a target=\"_blank\" href=\"https://supernaught.itch.io/necromorph\">Necromorph</a> by Alphonsus (<a target=\"_blank\" href=\"https://bsky.app/profile/alphonsusdev.bsky.social\">@alphonsusdev</a>) and Dave (<a target=\"_blank\" href=\"https://x.com/momorgoth\">@momorgoth</a>)"
+  var cr_hld = "<a target=\"_blank\" href=\"https://www.heartmachine.com/\">heartmachine.com</a>"+ 
+    "+ <a target=\"_blank\" href=\"https://x.com/HeartMachineZ\">@HeartMachineZ</a>"
+  var cr_ms = "<a target=\"_blank\" href=\"https://antonkudin.itch.io/megasphere\">Megasphere</a>"+
+    " by Anton Kudin (<a target=\"_blank\" href=\"https://bsky.app/profile/antonkudin.bsky.social\">@antonkudin</a>)"
+  var cr_bs = "<a target=\"_blank\" href=\"https://bitslap.itch.io/\">bitslap.itch.io</a>"
+  var cr_sg = "Sandy Gorden (<a target=\"_blank\" href=\"https://x.com/Bandygrass\">@Bandygrass</a>)"
+  var cr_ls = "<a target=\"_blank\" href=\"https://www.tumblr.com/lennsan\">https://www.tumblr.com/lennsan</a>"
   var cr_mf = "Mark Ferrari"
-  var cr_vb = "<a target=\"_blank\" href=\"http://www.valenberg.com/\">valenberg.com</a>"
-  var cr_rw = "Rain World (<a target=\"_blank\" href=\"http://store.steampowered.com/app/312520/\">Steam</a>, <a target=\"_blank\" href=\"https://twitter.com/RainWorldGame\">Twitter</a>)"
-  var cr_bp = "JayTKnox (<a target=\"_blank\" href=\"http://jayknoxart.tumblr.com\">jayknoxart.tumblr.com</a>, <a target=\"_blank\" href=\"https://twitter.com/JayTKnox\">@JayTKnox</a>)"
-  var cr_itr = "<a target=\"_blank\" href=\"http://www.facebook.com/intotherift\">Into The Rift</a>"
-  var cr_sl = "<a target=\"_blank\" href=\"http://www.wolfbrewgames.com/slain/\">Slain!</a>"
-  var cr_zt = "<a target=\"_blank\" href=\"http://zedotagger.tumblr.com/\">Zedotagger</a>"
+  var cr_vb = "<a target=\"_blank\" href=\"https://valenberg.tumblr.com/\">valenberg.tumblr.com</a>"
+  var cr_fx = "<a target=\"_blank\" href=\"https://faxdoc.github.io/\">Emlise</a> (faxdoc)"
+  var cr_rw = "Rain World (<a target=\"_blank\" href=\"https://store.steampowered.com/app/312520/\">Steam</a>, <a target=\"_blank\" href=\"https://x.com/RainWorldGame\">X</a>)"
+  var cr_bp = "JayTKnox (<a target=\"_blank\" href=\"https://jayknoxart.com/\">jayknoxart.com</a>, <a target=\"_blank\" href=\"https://x.com/JayTKnox\">@JayTKnox</a>)"
+  var cr_itr = "<a target=\"_blank\" href=\"https://www.facebook.com/intotherift\">Into The Rift</a>"
+  var cr_sl = "<a target=\"_blank\" href=\"https://store.steampowered.com/app/369070/Slain_Back_from_Hell/\">Slain!</a>"
+  var cr_zt = "<a target=\"_blank\" href=\"https://www.tumblr.com/zedotagger\">Zedotagger</a>"
 
+  // "valenberg/" covers every file in that folder. "valenberg/shop.gif" covers that file and wins.
   var credits = {
-    "iplayoldgames.gif":cr_kk,
-    "metro_final.gif":cr_kk,
-    "thieves.gif":cr_kk,
-    "train.gif":cr_kk,
-    "elderorc.gif":cr_kk,
-    "player2.gif":cr_kk,
-    "spaceport.gif":cr_kk,
-    "cave.gif":cr_zt,
-    "ground.gif": cr_zt,
-    "lake.gif": cr_zt,
-    "standing.gif": cr_zt,
-    "slain1.gif":cr_sl,
-    "slain2.gif":cr_sl,
-    "slain3.gif":cr_sl,
-    "bluebalcony.gif": cr_kk,
-    "shootingstars.gif": cr_kk,
-    "factory5.gif": cr_kk,
-    "coffeeinrain.gif": cr_kk,
-    "youngatnight.gif": cr_kk,
-    "pilot.gif": cr_kk,
-    "necromorph1.gif": cr_nec,
-    "necromorph2.gif": cr_nec,
-    "necromorph3.gif": cr_nec,
-    "bebop.gif": cr_bp,
-    "nighttrain.gif": cr_vb, 
-    "lowlands.gif": cr_vb,
-    "echoesfromneals.gif": cr_vb,
-    "bicycle.gif": cr_vb,
-    "blade.gif": cr_vb,
-    "daftpunk.gif": cr_vb,
-    "exodus.gif": cr_vb,
-    "future.gif": cr_vb,
-    "moon.png": cr_vb,
-    "redbicycle.gif": cr_vb,
-    "drift.gif": cr_vb,
-    "ride.gif": cr_vb,
-    "skate.gif": cr_vb,
-    "streets.gif": cr_vb,
-    "tv.gif": cr_vb,
-    "barfly.gif": "Longshot", 
-    "first.png": cr_ls,
-    "second.png": cr_ls,
-    "third.png": cr_ls,
-    "fourth.gif": cr_ls,
-    "fifth.gif": cr_ls,
-    "moving.gif": cr_rw,
-    "pups_fixed.gif": cr_rw,
-    "sticks_and_stones.gif": cr_rw,
-    "hyperlight.gif": cr_hld,
-    "hyperlight2.gif": cr_hld, 
-    "megasphere1.gif": cr_ms,
-    "megasphere2.gif": cr_ms,
-    "megasphere3.gif": cr_ms,
-    "megasphere4.gif": cr_ms,
-    "megasphere5.gif": cr_ms,
-    "wizard.gif" : cr_sg,
-    "gang.gif" : cr_sg,
-    "darksouls.gif" : cr_sg, 
-    "woods.png": "",
-    "mockup.gif": cr_bs,
-    "bitslap.gif": cr_bs,
-    "asylumgate.gif": cr_bs,
-    "nightcycle.gif": cr_bs, 
-    "fireflyreboot.gif": cr_bs,
-    "town.png":"http://www.serebiiforums.com/showthread.php?379701-Another-Sprite-Showcase",
-    "ironberg.png":"http://www.serebiiforums.com/showthread.php?379701-Another-Sprite-Showcase",
-    "forrest.png":"http://www.serebiiforums.com/showthread.php?379701-Another-Sprite-Showcase",
-    "leonard.png":"http://opengameart.org/content/whispers-of-avalon-grassland-tileset",
-    "arkanos.png":"http://opengameart.org/content/mage-city-arcanos",
-    "dungeon.gif":"http://opengameart.org/content/a-blocky-dungeon",
-    "fire.gif":cr_mf,
-    "swirling.gif":cr_mf,
-    "cave.gif":cr_mf,
-    "underwater.gif":cr_mf,
-    "swamp.gif":cr_mf,
-    "mountain.gif":cr_mf,
-    "fortress.gif":cr_mf,
-    "rain.gif":cr_mf,
-    "town.gif":cr_mf,
-    "bridge.gif":cr_mf,
-    "falls.gif":cr_mf,
-    "coast.gif":cr_mf,
-    "dawn.gif":cr_mf,
-    "northlights.gif":cr_mf,
-    "lake.gif":cr_mf,
-    "snow.gif":cr_mf,
-    "bridge_raining.gif":cr_mf,
-    "nature.gif": cr_mf,
-    "castle.gif": cr_mf,
-    "grandcanyon.gif": cr_mf,
-    "sea.gif": cr_mf,
-    "cyber.gif": "http://flexroman.tumblr.com/",
-    "intotherift.gif": cr_itr,
-    "intotherift2.gif": cr_itr,
-    "intotherift3.gif": cr_itr
+    "zedotagger/": cr_zt,
+    "landscapes/": cr_mf,
+    "slain/": cr_sl,
+    "kirokaze/": cr_kk,
+    "valenberg/": cr_vb,
+    "faxdoc/": cr_fx,
+    "intotherift/": cr_itr,
+    "lennsan/": cr_ls,
+    "rainworld/": cr_rw,
+    "necromorph/": cr_nec,
+    "hyperlightdrifter/": cr_hld,
+    "megasphere/": cr_ms,
+    "bandygrass/": cr_sg,
+    "woods/": "",
+    "movies/": cr_bp,
+    "other/barfly.gif": "Longshot",
+    "other/nightcycle.gif": cr_bs,
+    "other/fireflyreboot.gif": cr_bs,
+    "other/mockup.gif": cr_bs,
+    "other/asylumgate.gif": cr_bs,
+    "other/bitslap.gif": cr_bs,
+    "other/town.png": "http://www.serebiiforums.com/showthread.php?379701-Another-Sprite-Showcase",
+    "other/ironberg.png": "http://www.serebiiforums.com/showthread.php?379701-Another-Sprite-Showcase",
+    "other/forrest.png": "http://www.serebiiforums.com/showthread.php?379701-Another-Sprite-Showcase",
+    "other/leonard.png": "http://opengameart.org/content/whispers-of-avalon-grassland-tileset",
+    "other/arkanos.png": "http://opengameart.org/content/mage-city-arcanos",
+    "other/dungeon.gif": "http://opengameart.org/content/a-blocky-dungeon",
+    "more/iplayoldgames.gif": cr_kk,
+    "more/castle.gif": cr_mf,
+    "more/cyber.gif": "http://flexroman.tumblr.com/"
   }
+  this.credits = credits
 
   var modes = [
     "zedotagger",
@@ -247,6 +192,7 @@ var Dash = function() {
     "slain",
     "kirokaze",
     "valenberg",
+    "faxdoc",
     "intotherift",
     "lennsan",
     "rainworld",
@@ -365,10 +311,11 @@ var Dash = function() {
     var file = this.files[this.curIndex]
     if (!file) return
     this.changeBackground(this.curMode + "/" + file);
-    if(file in credits) {
-      this.changeCredit(credits[file]);
+    var html = creditHtml(credits, this.curMode, file)
+    if (html !== undefined) {
+      this.changeCredit(html);
     } else {
-      this.changeCredit("Mention me @madewithtea to take credit for your art.")
+      this.changeCredit("Contact extension author to take credit for your art.")
     }
   } 
 
@@ -491,5 +438,9 @@ if (typeof window !== "undefined") window.onload = function() {
 }
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { stepCatalog: stepCatalog }
+  module.exports = {
+    stepCatalog: stepCatalog,
+    creditHtml: creditHtml,
+    credits: new Dash().credits
+  }
 }

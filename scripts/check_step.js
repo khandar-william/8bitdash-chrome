@@ -1,7 +1,10 @@
 var assert = require("assert")
 var fs = require("fs")
 var path = require("path")
-var stepCatalog = require("../js/8bitdash.js").stepCatalog
+var dash = require("../js/8bitdash.js")
+var stepCatalog = dash.stepCatalog
+var creditHtml = dash.creditHtml
+var credits = dash.credits
 
 var src = fs.readFileSync(path.join(__dirname, "../js/8bitdash.js"), "utf8")
 var page = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8")
@@ -45,5 +48,48 @@ for (var n = 0; n < 6; n++) {
 }
 assert.deepStrictEqual(seen, ["0:0", "2:2", "2:1", "2:0", "1:0", "0:1"])
 assert.deepStrictEqual([modeIndex, imageIndex], [0, 0])
+
+var sample = { "valenberg/": "dir", "valenberg/shop.gif": "one" }
+assert.equal(creditHtml(sample, "valenberg", "shop.gif"), "one")
+assert.equal(creditHtml(sample, "valenberg", "ride.gif"), "dir")
+assert.equal(creditHtml(sample, "more", "shop.gif"), undefined)
+
+assert.equal(creditHtml(credits, "valenberg", "shop.gif"), credits["valenberg/"])
+assert.equal(creditHtml(credits, "more", "shop.gif"), undefined)
+assert.equal(creditHtml(credits, "zedotagger", "cave.gif"), credits["zedotagger/"])
+assert.equal(creditHtml(credits, "landscapes", "cave.gif"), credits["landscapes/"])
+assert.notEqual(credits["zedotagger/"], credits["landscapes/"])
+assert.equal(creditHtml(credits, "more", "iplayoldgames.gif"), credits["kirokaze/"])
+assert.equal(creditHtml(credits, "more", "castle.gif"), credits["landscapes/"])
+assert.equal(creditHtml(credits, "more", "cyber.gif"), "http://flexroman.tumblr.com/")
+assert.equal(creditHtml(credits, "more", "bats.gif"), undefined)
+assert.equal(creditHtml(credits, "woods", "woods.png"), "")
+assert.equal(creditHtml(credits, "other", "barfly.gif"), "Longshot")
+assert.equal("other/" in credits, false)
+assert.equal("more/" in credits, false)
+Object.keys(credits).forEach(function(key) {
+  assert.ok(key.indexOf("/") > 0, key)
+})
+
+function filesIn(folder) {
+  var dir = path.join(__dirname, "../images", folder)
+  if (!fs.existsSync(dir)) return []
+  return fs.readdirSync(dir).filter(function(name) {
+    var ext = path.extname(name).toLowerCase()
+    return [".gif", ".png", ".jpg", ".jpeg", ".webp"].indexOf(ext) !== -1
+  })
+}
+["kirokaze", "valenberg", "faxdoc"].forEach(function(folder) {
+  filesIn(folder).forEach(function(name) {
+    assert.equal(creditHtml(credits, folder, name), credits[folder + "/"], folder + "/" + name)
+  })
+})
+filesIn("more").forEach(function(name) {
+  var html = creditHtml(credits, "more", name)
+  if (name === "iplayoldgames.gif") assert.equal(html, credits["kirokaze/"])
+  else if (name === "castle.gif") assert.equal(html, credits["landscapes/"])
+  else if (name === "cyber.gif") assert.equal(html, "http://flexroman.tumblr.com/")
+  else assert.equal(html, undefined, name)
+})
 
 console.log("ok")

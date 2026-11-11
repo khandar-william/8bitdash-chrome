@@ -44,4 +44,13 @@ It prints `ok` when stepping wraps correctly in both directions across art packs
 
 Andrea Tosatto wrote the upstream extension: [github.com/atosatto](https://github.com/atosatto).
 
-The art and the original start page come from [8bitdash](https://github.com/8bitdash/8bitdash.github.io).
+All pictures were copied from [atosatto/8bitdash-chrome](https://github.com/atosatto/8bitdash-chrome) and [hlindhe/8bitdash.github.io](https://github.com/hlindhe/8bitdash.github.io).
+
+This extension bundled the following third-party code:
+
+- [dat.GUI](https://github.com/dataarts/dat.gui) 0.5.0 (`bower_components/dat-gui/build/dat.gui.min.js`). Copyright 2011 Data Arts Team, Google Creative Lab. [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+- [alertify.js](https://github.com/alertifyjs/alertify.js) 0.3.12 (`bower_components/alertifyjs/dist/js/alertify.js` and `bower_components/alertifyjs/dist/css/alertify.css`). Copyright Fabien Doiron. [MIT License](https://opensource.org/licenses/MIT).
+- [basil.js](https://github.com/Wisembly/basil.js) 0.4.0 (`bower_components/basil.js/build/basil.min.js`). Copyright 2014 Wisembly and contributors. [MIT License](https://opensource.org/licenses/MIT).
+- [Skeleton](https://github.com/dhg/Skeleton) 2.0.4 (`bower_components/skeleton/skeleton.css`). Copyright 2014 Dave Gamache. [MIT License](https://opensource.org/licenses/MIT).
+- [fullPage.js](https://github.com/alvarotrigo/fullPage.js) 2.5.6 stylesheet (`bower_components/fullpage.js/jquery.fullPage.css`). The file header still says fullPage 2.4.6. Copyright 2013 Alvaro Trigo. [MIT License](https://opensource.org/licenses/MIT).
+- [Minecraft](https://fontstruct.com/fontstructions/show/432966) by Pwnage_Block, built with FontStruct in 2011 (`css/font.css` and the `minecraftfont` files). [Creative Commons Attribution-ShareAlike 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
