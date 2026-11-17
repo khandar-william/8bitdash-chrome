@@ -32,6 +32,15 @@ node scripts/check_step.js
 
 It prints `ok` when stepping wraps correctly in both directions across art packs.
 
+## Change the language
+
+The greeting follows the clock. The language setting changes the words, and Chrome keeps the choice for later tabs.
+
+1. Open a new tab.
+2. Press **H**. The settings panel opens at the top right. Press **H** again to hide it.
+3. In **default**, open the **language** list and pick one: english, german, spanish, russian, french, mandarin, japanese, arabic, hindi, korean, italian, or indonesian.
+4. The greeting updates, and a **Saved settings** notice appears.
+
 ## Compared with upstream
 
 [atosatto/8bitdash-chrome](https://github.com/atosatto/8bitdash-chrome) is Manifest V2, loads a script from `apps.madewithtea.com`, and runs Mixpanel from the new-tab page. Current Chrome will not load that package. This fork changes three things:

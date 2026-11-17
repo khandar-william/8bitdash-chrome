@@ -64,13 +64,20 @@ assert.equal(creditHtml(credits, "more", "castle.gif"), credits["landscapes/"])
 assert.equal(creditHtml(credits, "more", "cyber.gif"), "http://flexroman.tumblr.com/")
 assert.equal(creditHtml(credits, "more", "bats.gif"), undefined)
 assert.equal(creditHtml(credits, "movies", "bebop.gif"), credits["movies/bebop.gif"])
-assert.equal(creditHtml(credits, "movies", "armageddon.gif"), undefined)
+assert.equal(creditHtml(credits, "movies", "armageddon.gif"), credits["movies/starwards.gif"])
+assert.equal(creditHtml(credits, "movies", "ghostbusters.gif"), credits["movies/ghostbusters.gif"])
+assert.notEqual(credits["movies/ghostbusters.gif"], credits["movies/armageddon.gif"])
+assert.equal(creditHtml(credits, "movies", "jaws.gif"), undefined)
+assert.equal(creditHtml(credits, "cities", "of_fire_and_waves_2.gif"), credits["cities/of_fire_and_waves_0.gif"])
+assert.equal(creditHtml(credits, "cities", "koreanscene.gif"), undefined)
+assert.equal(creditHtml(credits, "cities", "urban.gif"), undefined)
+assert.equal("cities/" in credits, false)
 assert.equal("movies/" in credits, false)
 assert.equal(creditHtml(credits, "gaming", "hyperlight.gif"), credits["hyperlightdrifter/"])
 assert.equal(creditHtml(credits, "gaming", "cyber.gif"), "http://flexroman.tumblr.com/")
-assert.equal(creditHtml(credits, "gaming", "bridge.gif"), undefined)
+assert.equal(creditHtml(credits, "gaming", "bridge.gif"), credits["gaming/bridge.gif"])
 assert.equal(creditHtml(credits, "other", "forrest.gif"), credits["landscapes/"])
-assert.equal(creditHtml(credits, "woods", "woods.png"), "")
+assert.equal(creditHtml(credits, "woods", "woods.png"), credits["woods/woods.png"])
 assert.equal(creditHtml(credits, "other", "barfly.gif"), "Longshot")
 assert.equal("other/" in credits, false)
 assert.equal("more/" in credits, false)
@@ -86,7 +93,7 @@ function filesIn(folder) {
     return [".gif", ".png", ".jpg", ".jpeg", ".webp"].indexOf(ext) !== -1
   })
 }
-["kirokaze", "valenberg", "faxdoc"].forEach(function(folder) {
+["kirokaze", "valenberg", "faxdoc", "ultimate"].forEach(function(folder) {
   filesIn(folder).forEach(function(name) {
     assert.equal(creditHtml(credits, folder, name), credits[folder + "/"], folder + "/" + name)
   })
@@ -96,6 +103,8 @@ filesIn("more").forEach(function(name) {
   if (name === "iplayoldgames.gif") assert.equal(html, credits["kirokaze/"])
   else if (name === "castle.gif") assert.equal(html, credits["landscapes/"])
   else if (name === "cyber.gif") assert.equal(html, "http://flexroman.tumblr.com/")
+  else if (name === "eating.gif") assert.equal(html, credits["more/eating.gif"])
+  else if (name === "pixelphony_2.gif") assert.equal(html, credits["more/pixelphony_2.gif"])
   else assert.equal(html, undefined, name)
 })
 

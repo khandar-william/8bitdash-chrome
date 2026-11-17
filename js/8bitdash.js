@@ -11,6 +11,7 @@ var goodMorning = {
 	"hindi":"सुप्रभात",
 	"korean":"좋은 아침",
 	"italian":"Buongiorno",
+	"indonesian":"Selamat Pagi",
 }
 var goodNight = {
 	"english":"Good Night",
@@ -24,6 +25,7 @@ var goodNight = {
 	"hindi":"शुभ रात्रि",
 	"korean":"안녕히 주무세요",
 	"italian":"Buona Notte",
+	"indonesian":"Selamat Malam",
 }
 var goodAfternoon = {
 	"english":"Good Afternoon",
@@ -37,6 +39,7 @@ var goodAfternoon = {
 	"hindi":"नमस्कार",
 	"korean":"안녕하세요",
 	"italian":"Buon Pomeriggio",
+	"indonesian":"Selamat Siang",
 }
 var goodEvening = {
 	"english":"Good Evening",
@@ -50,6 +53,7 @@ var goodEvening = {
 	"hindi":"गुड इवनिंग",
 	"korean":"안녕하세요",
 	"italian":"Buona Sera",
+	"indonesian":"Selamat Sore",
 }
 var sleepWell = {
 	"english":"Good Night",
@@ -63,6 +67,7 @@ var sleepWell = {
 	"hindi":"अच्छे से सो",
 	"korean":"숙면",
 	"italian":"Dormi Bene",
+	"indonesian":"Selamat Tidur",
 }
 var imageExtensions = ["gif", "png", "jpg", "jpeg", "webp"]
 
@@ -150,6 +155,9 @@ var Dash = function() {
   var cr_itr = "<a target=\"_blank\" href=\"https://www.facebook.com/intotherift\">Into The Rift</a>"
   var cr_sl = "<a target=\"_blank\" href=\"https://store.steampowered.com/app/369070/Slain_Back_from_Hell/\">Slain!</a>"
   var cr_zt = "<a target=\"_blank\" href=\"https://www.tumblr.com/zedotagger\">Zedotagger</a>"
+  var cr_pp = "Snooze (<a target=\"_blank\" href=\"https://pixel-plays.tumblr.com/\">Pixel Plays</a>)"
+  var cr_ah = "Andy Helms (<a target=\"_blank\" href=\"https://oktotally.tumblr.com/\">OKTotally</a>)"
+  var cr_snk = "SNK (<a target=\"_blank\" href=\"https://www.snk-corp.co.jp/us/\">The King of Fighters '99</a> Park stage)"
 
   // "valenberg/" covers every file in that folder. "valenberg/shop.gif" covers that file and wins.
   var credits = {
@@ -166,8 +174,22 @@ var Dash = function() {
     "hyperlightdrifter/": cr_hld,
     "megasphere/": cr_ms,
     "bandygrass/": cr_sg,
-    "woods/": "",
     "movies/bebop.gif": cr_bp,
+    "movies/armageddon.gif": cr_pp,
+    "movies/biglebowski.gif": cr_pp,
+    "movies/et.gif": cr_pp,
+    "movies/ghostbusters.gif": cr_ah,
+    "movies/indianajones.gif": cr_pp,
+    "movies/jurassic.gif": cr_pp,
+    "movies/looper.gif": cr_pp,
+    "movies/pulpfiction.gif": cr_pp,
+    "movies/robin.gif": cr_pp,
+    "movies/spaceodysee.gif": cr_pp,
+    "movies/starwards.gif": cr_pp,
+    "cities/of_fire_and_waves_0.gif": cr_snk,
+    "cities/of_fire_and_waves_1.gif": cr_snk,
+    "cities/of_fire_and_waves_2.gif": cr_snk,
+    "woods/woods.png": "Enterbrain (<a target=\"_blank\" href=\"https://www.rpgmakerweb.com/products/rpg-maker-xp\">RPG Maker XP</a> Woods tileset)",
     "other/barfly.gif": "Longshot",
     "other/nightcycle.gif": cr_bs,
     "other/fireflyreboot.gif": cr_bs,
@@ -181,12 +203,21 @@ var Dash = function() {
     "other/arkanos.png": "http://opengameart.org/content/mage-city-arcanos",
     "other/dungeon.gif": "http://opengameart.org/content/a-blocky-dungeon",
     "other/forrest.gif": cr_mf,
+    "gaming/aladin.gif": "Virgin Games and Disney (<a target=\"_blank\" href=\"https://thekingofgrabs.com/2022/07/25/aladdin-megadrive-genesis/\">Disney's Aladdin</a>, Sega Genesis)",
+    "gaming/bridge.gif": "Capcom (<a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Breath_of_Fire_III\">Breath of Fire III</a>)",
     "gaming/hyperlight.gif": cr_hld,
     "gaming/hyperlight2.gif": cr_hld,
+    "gaming/kirby.gif": "HAL Laboratory (<a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Kirby_Super_Star\">Kirby Super Star</a>)",
+    "gaming/mario.gif": "Nintendo (<a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Super_Mario_World\">Super Mario World</a>), GIF by <a target=\"_blank\" href=\"https://thunderbolt.tumblr.com/post/61106428812\">Amy Thunderbolt</a>",
+    "gaming/watchdogs.gif": "Yuuta Toyoi (<a target=\"_blank\" href=\"https://www.tumblr.com/1041uuu/90371393978\">1041uuu</a>)",
+    "gaming/zelda2.gif": "Nintendo (<a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_A_Link_to_the_Past\">The Legend of Zelda: A Link to the Past</a>)",
     "gaming/cyber.gif": "http://flexroman.tumblr.com/",
     "more/iplayoldgames.gif": cr_kk,
     "more/castle.gif": cr_mf,
-    "more/cyber.gif": "http://flexroman.tumblr.com/"
+    "more/cyber.gif": "http://flexroman.tumblr.com/",
+    "more/eating.gif": "Yuuta Toyoi (<a target=\"_blank\" href=\"https://www.ucreative.com/articles/slice-of-life-captivating-8-bit-pixel-art-by-yuuta-toyoi/\">1041uuu</a>)",
+    "more/pixelphony_2.gif": "Mark Ferrari (<a target=\"_blank\" href=\"https://www.randelshofer.ch/animations/anims_ibm/mark_j_ferrari/V04.LBM.html\">Highland Ruins</a>)",
+    "ultimate/": "Capcom (<a target=\"_blank\" href=\"https://www.capcom.com/\">capcom.com</a>)"
   }
   this.credits = credits
 
@@ -404,7 +435,7 @@ if (typeof window !== "undefined") window.onload = function() {
 
   var defa = gui.addFolder('default');
   var languages = ["english", "german", "spanish", "russian", "french", 
-  "mandarin", "japanese", "arabic", "hindi", "korean", "italian"];
+  "mandarin", "japanese", "arabic", "hindi", "korean", "italian", "indonesian"];
   var languages = defa.add(dash, "language", languages);
   var themes = defa.add(dash, "theme", dash.modes);
   dash.themeController = themes
